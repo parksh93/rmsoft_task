@@ -1,8 +1,8 @@
 package com.subscribe.task.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.subscribe.task.dto.user.SaveUserDTO;
-import com.subscribe.task.dto.user.SignInDTO;
+import com.subscribe.task.dto.subscribe.RequestSaveSubDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MemberControllerTest {
+public class SubscribeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -40,46 +40,25 @@ public class MemberControllerTest {
 
     @Test
     @Transactional
-    @DisplayName("회원 가입")
-    public void signupTest() throws Exception {
-        String url = "/user/signup";
-        String url2 = "/user/findAll";
-
-        SaveUserDTO saveUserDTO = SaveUserDTO.builder()
-                .loginId("asd")
-                .password("123")
-                .name("rmsoft")
-                .email("rmsoft@naver.com")
-                .phoneNumber("010-1234-1234")
-                .address("서울시 강남구 역삼동")
+    @DisplayName("서비스 구독 신청")
+    public void subscriptionTest() throws Exception {
+        RequestSaveSubDTO saveSubDTO = RequestSaveSubDTO.builder()
+                .memberId(1L)
+                .personnel(2)
+                .service("Basic")
+                .storage(1L)
+                .personnel(1)
                 .build();
+        String url = "/sub/subscription";
+        String url2 = "/sub/findAllSub";
 
-        final String request = objectMapper.writeValueAsString(saveUserDTO);
+        final String request = objectMapper.writeValueAsString(saveSubDTO);
 
-        mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_VALUE).content(request));
+        mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(request));
 
         final ResultActions result = mockMvc.perform(get(url2).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].loginId").value("asd"));
-    }
-
-    @Test
-    @Transactional
-    @DisplayName("로그인")
-    public void signInTest() throws Exception{
-        String url = "/user/signIn";
-
-        SignInDTO signInDTO = SignInDTO.builder()
-                .loginId("asd")
-                .password("123")
-                .build();
-
-        final String request = objectMapper.writeValueAsString(signInDTO);
-
-        final ResultActions result = mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON).content(request));
-
-        result.andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("rmsoft"));
+                .andExpect(jsonPath("$[0].memberId").value(1));
     }
 }

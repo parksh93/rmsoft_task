@@ -1,7 +1,7 @@
 package com.subscribe.task.repository;
 
-import com.subscribe.task.dto.FindMemberDTO;
-import com.subscribe.task.dto.SaveDTO;
+import com.subscribe.task.dto.user.FindMemberDTO;
+import com.subscribe.task.dto.user.SaveUserDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class MemberRepositoryTest {
      @Transactional
      @DisplayName("회원 저장")
      public void saveTest(){
-          SaveDTO saveDTO = SaveDTO.builder()
+          SaveUserDTO saveUserDTO = SaveUserDTO.builder()
                   .loginId("asd")
                   .password("123")
                   .name("rmsoft")
@@ -30,7 +30,7 @@ public class MemberRepositoryTest {
                   .address("서울시 강남구 역삼동")
                   .build();
 
-          memberRepository.save(saveDTO);
+          memberRepository.save(saveUserDTO);
 
           List<FindMemberDTO> memberList = memberRepository.findAll();
 
@@ -40,10 +40,10 @@ public class MemberRepositoryTest {
      @Test
      @Transactional
      @DisplayName("회원 정보 조회")
-     public void findById(){
-          String id = "asd";
-          String password = memberRepository.findPasswordByLoginId(id);
+     public void findByLoginIdTest(){
+          String loginId = "asd";
+          FindMemberDTO findMemberDTO = memberRepository.findByLoginId(loginId);
 
-          assertEquals("123", password);
+          assertEquals("123", findMemberDTO.getPassword());
      }
 }

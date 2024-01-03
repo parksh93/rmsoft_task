@@ -1,19 +1,16 @@
 package com.subscribe.task.controller;
 
-import com.subscribe.task.dto.FindMemberDTO;
-import com.subscribe.task.dto.SaveDTO;
-import com.subscribe.task.service.MemberService;
+import com.subscribe.task.dto.user.FindMemberDTO;
+import com.subscribe.task.dto.user.SaveUserDTO;
+import com.subscribe.task.dto.user.SignInDTO;
+import com.subscribe.task.service.user.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class MemberController {
     private MemberService memberService;
@@ -28,9 +25,13 @@ public class MemberController {
         return ResponseEntity.ok(memberService.findAll());
     }
 
-
     @PostMapping("/signup")
-    public void signup(@RequestBody SaveDTO saveDTO){
-        memberService.save(saveDTO);
+    public void signup(@RequestBody SaveUserDTO saveUserDTO){
+        memberService.save(saveUserDTO);
+    }
+
+    @GetMapping("/signIn")
+    public ResponseEntity<?> signIn(@RequestBody SignInDTO signInDTO){
+        return ResponseEntity.ok(memberService.findUser(signInDTO));
     }
 }

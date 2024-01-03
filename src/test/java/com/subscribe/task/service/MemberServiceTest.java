@@ -1,7 +1,9 @@
 package com.subscribe.task.service;
 
-import com.subscribe.task.dto.FindMemberDTO;
-import com.subscribe.task.dto.SaveDTO;
+import com.subscribe.task.dto.user.FindMemberDTO;
+import com.subscribe.task.dto.user.SaveUserDTO;
+import com.subscribe.task.dto.user.SignInDTO;
+import com.subscribe.task.service.user.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class MemberServiceTest {
     @Transactional
     @DisplayName("회원 정보 추가")
     public void saveTest(){
-        SaveDTO saveDTO = SaveDTO.builder()
+        SaveUserDTO saveUserDTO = SaveUserDTO.builder()
                 .loginId("asd")
                 .password("123")
                 .name("rmsoft")
@@ -30,10 +32,27 @@ public class MemberServiceTest {
                 .address("서울시 강남구 역삼동")
                 .build();
 
-        memberService.save(saveDTO);
+        memberService.save(saveUserDTO);
 
         List<FindMemberDTO> memberList = memberService.findAll();
 
         assertEquals(1, memberList.size());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("사용자 조회")
+    public void findUser(){
+        String loginId = "asd";
+        String password = "123";
+
+        SignInDTO signInDTO = SignInDTO.builder()
+                .loginId(loginId)
+                .password(password)
+                .build();
+
+        FindMemberDTO findMemberDTO = memberService.findUser(signInDTO);
+
+        assertEquals("rmsoft", findMemberDTO.getName());
     }
 }

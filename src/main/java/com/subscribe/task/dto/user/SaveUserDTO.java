@@ -1,4 +1,4 @@
-package com.subscribe.task.dto;
+package com.subscribe.task.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
-public class SaveDTO {
+public class SaveUserDTO {
     private String loginId;
     private String password;
     private String name;

@@ -1,4 +1,4 @@
-package com.subscribe.task.dto;
+package com.subscribe.task.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

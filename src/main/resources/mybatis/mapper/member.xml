@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.subscribe.task.repository.MemberRepository">
-    <select id="findAll" resultType="com.subscribe.task.dto.FindMemberDTO">
+    <select id="findAll" resultType="com.subscribe.task.dto.user.FindMemberDTO">
         SELECT * FROM members
     </select>
-    <insert id="save" parameterType="com.subscribe.task.dto.SaveDTO">
+    <insert id="save" parameterType="com.subscribe.task.dto.user.SaveUserDTO">
         INSERT INTO members VALUES (null, #{loginId}, #{password}, #{name}, #{phoneNumber}, #{email}, #{address})
     </insert>
-    <select id="findPasswordByLoginId" parameterType="string" resultType="string">
-         SELECT password FROM members WHERE login_id = #{loginId}
+    <select id="findByLoginId" parameterType="string" resultType="com.subscribe.task.dto.user.FindMemberDTO">
+         SELECT * FROM members WHERE login_id = #{loginId}
     </select>
 </mapper>
