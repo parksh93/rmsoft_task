@@ -3,12 +3,28 @@
 
 <mapper namespace="com.subscribe.task.repository.MemberRepository">
     <select id="findAll" resultType="com.subscribe.task.dto.user.FindMemberDTO">
-        SELECT * FROM members
+        SELECT
+            id,
+            login_id AS loginId,
+            password,
+            name,
+            phone_number AS phoneNumber,
+            email,
+            address
+        FROM members
     </select>
     <insert id="save" parameterType="com.subscribe.task.dto.user.SaveUserDTO">
         INSERT INTO members VALUES (null, #{loginId}, #{password}, #{name}, #{phoneNumber}, #{email}, #{address})
     </insert>
     <select id="findByLoginId" parameterType="string" resultType="com.subscribe.task.dto.user.FindMemberDTO">
-         SELECT * FROM members WHERE login_id = #{loginId}
+        SELECT
+            id,
+            login_id AS loginId,
+            password,
+            name,
+            phone_number AS phoneNumber,
+            email,
+            address
+        FROM members WHERE login_id = #{loginId}
     </select>
 </mapper>

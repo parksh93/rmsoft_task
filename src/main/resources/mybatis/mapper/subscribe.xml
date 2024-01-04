@@ -2,11 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.subscribe.task.repository.SubscribeRepository">
-    <select id="findAllSub" resultType="com.subscribe.task.dto.subscribe.FindAllSubDTO">
-        SELECT * FROM subscribe
+    <select id="findAllSub" resultType="com.subscribe.task.dto.subscribe.FindSubDTO">
+        SELECT
+            id,
+            member_id AS memberId,
+            personnel,
+            service,
+            storage,
+            storage_usage AS storageUsage,
+            start_date AS startDate,
+            end_date AS endDate
+        FROM subscribe
     </select>
-
     <insert id="saveSub" parameterType="com.subscribe.task.dto.subscribe.SaveSubDTO">
-        INSERT INTO subscribe VALUES (null, #{memberId}, #{personnel}, #{service}, #{storage}, #{startDate}, #{endDate})
+        INSERT INTO subscribe VALUES (null, #{memberId}, #{personnel}, #{service}, #{storage}, 0, #{startDate}, #{endDate})
     </insert>
+    <select id="findSubByMemberId" parameterType="long" resultType="com.subscribe.task.dto.subscribe.FindSubDTO">
+        SELECT
+            id,
+            member_id AS memberId,
+            personnel,
+            service,
+            storage,
+            storage_usage AS storageUsage,
+            start_date AS startDate,
+            end_date AS endDate
+        FROM
+            subscribe
+        WHERE
+            member_id = #{memberId}
+    </select>
+    <update id="updateSubRemainDate" parameterType="com.subscribe.task.dto.subscribe.ExtensionPeriodDTO">
+        UPDATE subscribe SET end_date = #{endDate} WHERE id = #{id}
+    </update>
 </mapper>

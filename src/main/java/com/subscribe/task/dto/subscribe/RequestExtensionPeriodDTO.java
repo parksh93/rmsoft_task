@@ -9,10 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
-public class RequestSaveSubDTO {
-    private long memberId;
-    private int personnel;
-    private String service;
-    private long storage;
+public class RequestExtensionPeriodDTO {
+    private long id;
     private int period;
 }

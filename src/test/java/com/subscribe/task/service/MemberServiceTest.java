@@ -24,7 +24,7 @@ public class MemberServiceTest {
     @DisplayName("회원 정보 추가")
     public void saveTest(){
         SaveUserDTO saveUserDTO = SaveUserDTO.builder()
-                .loginId("asd")
+                .loginId("asd1")
                 .password("123")
                 .name("rmsoft")
                 .email("rmsoft@naver.com")
@@ -36,7 +36,8 @@ public class MemberServiceTest {
 
         List<FindMemberDTO> memberList = memberService.findAll();
 
-        assertEquals(1, memberList.size());
+        assertEquals(2, memberList.size());
+        assertEquals("asd1", memberList.get(1).getLoginId());
     }
 
     @Test

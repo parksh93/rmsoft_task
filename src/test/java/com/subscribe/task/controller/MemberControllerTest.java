@@ -46,7 +46,7 @@ public class MemberControllerTest {
         String url2 = "/user/findAll";
 
         SaveUserDTO saveUserDTO = SaveUserDTO.builder()
-                .loginId("asd")
+                .loginId("asd1")
                 .password("123")
                 .name("rmsoft")
                 .email("rmsoft@naver.com")

@@ -1,7 +1,7 @@
 package com.subscribe.task.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.subscribe.task.dto.subscribe.RequestExtensionPeriodDTO;
 import com.subscribe.task.dto.subscribe.RequestSaveSubDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +16,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.time.LocalDate;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -59,6 +60,43 @@ public class SubscribeControllerTest {
         final ResultActions result = mockMvc.perform(get(url2).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].memberId").value(1));
+                .andExpect(jsonPath("$[1].memberId").value(1));
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("사용자 사용현황 조회")
+    public void findSubTest() throws Exception{
+        long memberId = 1L;
+        String url = "/sub/findSub/" + memberId;
+
+        final ResultActions result = mockMvc.perform(get(url).accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.service").value("Basic"))
+                .andExpect(jsonPath("$.remainDate").value(31));
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("서비스 기간 연장 신청")
+    public void extensionPeriodTest() throws Exception {
+        RequestExtensionPeriodDTO requestExtensionPeriodDTO = RequestExtensionPeriodDTO.builder()
+                .id(1L)
+                .period(1)
+                .build();
+        String url = "/sub/extensionPeriod";
+
+        long memberId = 1L;
+        String url2 = "/sub/findSub/" + memberId;
+
+        final String request = objectMapper.writeValueAsString(requestExtensionPeriodDTO);
+
+        mockMvc.perform(patch(url).contentType(MediaType.APPLICATION_JSON).content(request));
+
+        final ResultActions result = mockMvc.perform(get(url2).accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.endDate").value(LocalDate.now().plusMonths(1).toString()));
     }
 }
