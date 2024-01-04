@@ -1,9 +1,9 @@
 package com.subscribe.task.service;
 
-import com.subscribe.task.dto.user.FindMemberDTO;
+import com.subscribe.task.dto.user.FindUserDTO;
 import com.subscribe.task.dto.user.SaveUserDTO;
 import com.subscribe.task.dto.user.SignInDTO;
-import com.subscribe.task.service.user.MemberService;
+import com.subscribe.task.service.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
-public class MemberServiceTest {
+public class UserServiceTest {
     @Autowired
-    MemberService memberService;
+    UserService userService;
 
     @Test
     @Transactional
@@ -32,9 +33,9 @@ public class MemberServiceTest {
                 .address("서울시 강남구 역삼동")
                 .build();
 
-        memberService.save(saveUserDTO);
+        userService.save(saveUserDTO);
 
-        List<FindMemberDTO> memberList = memberService.findAll();
+        List<FindUserDTO> memberList = userService.findAll();
 
         assertEquals(2, memberList.size());
         assertEquals("asd1", memberList.get(1).getLoginId());
@@ -42,7 +43,7 @@ public class MemberServiceTest {
 
     @Test
     @Transactional
-    @DisplayName("사용자 조회")
+    @DisplayName("로그인시 액세스 토큰 발급")
     public void findUser(){
         String loginId = "asd";
         String password = "123";
@@ -52,8 +53,8 @@ public class MemberServiceTest {
                 .password(password)
                 .build();
 
-        FindMemberDTO findMemberDTO = memberService.findUser(signInDTO);
+        String token = userService.generateToken(signInDTO);
 
-        assertEquals("rmsoft", findMemberDTO.getName());
+        assertNotEquals("", token);
     }
 }

@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MemberControllerTest {
+public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -64,6 +64,8 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$[0].loginId").value("asd"));
     }
 
+    // SpringSecurity 적용 전 테스트 내역
+    /*
     @Test
     @Transactional
     @DisplayName("로그인")
@@ -82,4 +84,5 @@ public class MemberControllerTest {
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("rmsoft"));
     }
+     */
 }

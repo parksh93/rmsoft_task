@@ -1,6 +1,6 @@
 package com.subscribe.task.repository;
 
-import com.subscribe.task.dto.user.FindMemberDTO;
+import com.subscribe.task.dto.user.FindUserDTO;
 import com.subscribe.task.dto.user.SaveUserDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class MemberRepositoryTest {
+public class UserRepositoryTest {
      @Autowired
-     MemberRepository memberRepository;
+     UserRepository userRepository;
 
      @Test
      @Transactional
@@ -30,9 +30,9 @@ public class MemberRepositoryTest {
                   .address("서울시 강남구 역삼동")
                   .build();
 
-          memberRepository.save(saveUserDTO);
+          userRepository.save(saveUserDTO);
 
-          List<FindMemberDTO> memberList = memberRepository.findAll();
+          List<FindUserDTO> memberList = userRepository.findAll();
 
           assertEquals(2, memberList.size());
           assertEquals("asd1", memberList.get(1).getLoginId());
@@ -43,7 +43,7 @@ public class MemberRepositoryTest {
      @DisplayName("회원 정보 조회")
      public void findByLoginIdTest(){
           String loginId = "asd";
-          FindMemberDTO findMemberDTO = memberRepository.findByLoginId(loginId);
+          FindUserDTO findMemberDTO = userRepository.findByLoginId(loginId);
 
           assertEquals("123", findMemberDTO.getPassword());
      }

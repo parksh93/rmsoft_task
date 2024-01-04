@@ -9,7 +9,11 @@ spring:
     password: ${password}
     driver-class-name: ${driver-class-name}
   profiles:
-    active: db
+    active: db, jwt
+
+jwt:
+  issuer: ${issuer}
+  secret_key: ${secret_key}
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/**/**.xml

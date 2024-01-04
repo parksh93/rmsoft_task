@@ -2,13 +2,14 @@ package com.subscribe.task.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
-public class FindMemberDTO {
+public class FindUserDTO {
     private long id;
     private String loginId;
     private String password;
