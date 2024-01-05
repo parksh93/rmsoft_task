@@ -5,7 +5,7 @@
     <select id="findAllSub" resultType="com.subscribe.task.dto.subscribe.FindSubDTO">
         SELECT
             id,
-            member_id AS memberId,
+            user_id AS userId,
             personnel,
             service,
             storage,
@@ -15,12 +15,12 @@
         FROM subscribe
     </select>
     <insert id="saveSub" parameterType="com.subscribe.task.dto.subscribe.SaveSubDTO">
-        INSERT INTO subscribe VALUES (null, #{memberId}, #{personnel}, #{service}, #{storage}, 0, #{startDate}, #{endDate})
+        INSERT INTO subscribe VALUES (null, #{userId}, #{personnel}, #{service}, #{storage}, 0, #{startDate}, #{endDate})
     </insert>
-    <select id="findSubByMemberId" parameterType="long" resultType="com.subscribe.task.dto.subscribe.FindSubDTO">
+    <select id="findSubByUserId" parameterType="long" resultType="com.subscribe.task.dto.subscribe.FindSubDTO">
         SELECT
             id,
-            member_id AS memberId,
+            user_id AS userId,
             personnel,
             service,
             storage,
@@ -30,7 +30,22 @@
         FROM
             subscribe
         WHERE
-            member_id = #{memberId}
+            user_id = #{userId}
+    </select>
+    <select id="findSubById" parameterType="long" resultType="com.subscribe.task.dto.subscribe.FindSubDTO">
+        SELECT
+            id,
+            user_id AS userId,
+            personnel,
+            service,
+            storage,
+            storage_usage AS storageUsage,
+            start_date AS startDate,
+            end_date AS endDate
+        FROM
+            subscribe
+        WHERE
+            id = #{id}
     </select>
     <update id="updateSubRemainDate" parameterType="com.subscribe.task.dto.subscribe.ExtensionPeriodDTO">
         UPDATE subscribe SET end_date = #{endDate} WHERE id = #{id}

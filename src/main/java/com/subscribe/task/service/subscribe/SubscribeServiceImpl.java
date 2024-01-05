@@ -1,22 +1,27 @@
 package com.subscribe.task.service.subscribe;
 
+import com.subscribe.task.dto.payment.SavePaymentDTO;
 import com.subscribe.task.dto.subscribe.*;
+import com.subscribe.task.exception.NotMatchAmountException;
+import com.subscribe.task.repository.PaymentRepository;
 import com.subscribe.task.repository.SubscribeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
 public class SubscribeServiceImpl implements SubscribeService{
     SubscribeRepository subscribeRepository;
+    PaymentRepository paymentRepository;
 
     @Autowired
-    public SubscribeServiceImpl(SubscribeRepository subscribeRepository){
+    public SubscribeServiceImpl(SubscribeRepository subscribeRepository, PaymentRepository paymentRepository){
         this.subscribeRepository = subscribeRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     @Override
@@ -25,28 +30,36 @@ public class SubscribeServiceImpl implements SubscribeService{
     }
 
     @Override
+    @Transactional
     public void saveSub(RequestSaveSubDTO requestSaveSubDTO) {
-        SaveSubDTO saveSubDTO = SaveSubDTO.builder()
-                .memberId(requestSaveSubDTO.getMemberId())
-                .personnel(requestSaveSubDTO.getPersonnel())
-                .service(requestSaveSubDTO.getService())
-                .storage(requestSaveSubDTO.getStorage())
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusMonths(requestSaveSubDTO.getPeriod()))
-                .build();
+        boolean checkAmount = compareAmount(requestSaveSubDTO.getAmount(),
+                                            requestSaveSubDTO.getPeriod(),
+                                            requestSaveSubDTO.getService(),
+                                            requestSaveSubDTO.getUserId());
 
-        subscribeRepository.saveSub(saveSubDTO);
+        if(checkAmount){
+            SaveSubDTO saveSubDTO = SaveSubDTO.builder()
+                    .userId(requestSaveSubDTO.getUserId())
+                    .personnel(requestSaveSubDTO.getPersonnel())
+                    .service(requestSaveSubDTO.getService())
+                    .storage(requestSaveSubDTO.getStorage())
+                    .startDate(LocalDate.now())
+                    .endDate(LocalDate.now().plusMonths(requestSaveSubDTO.getPeriod()))
+                    .build();
+
+            subscribeRepository.saveSub(saveSubDTO);
+        }
     }
 
     @Override
     public ResponseFindSubDTO findSub(long memberId) {
-        FindSubDTO subDTO = subscribeRepository.findSubByMemberId(memberId);
+        FindSubDTO subDTO = subscribeRepository.findSubByUserId(memberId);
 
         long remainDate = ChronoUnit.DAYS.between(subDTO.getStartDate(), subDTO.getEndDate());
 
         ResponseFindSubDTO responseSubDTO = ResponseFindSubDTO.builder()
                         .id(subDTO.getId())
-                        .memberId(subDTO.getMemberId())
+                        .userId(subDTO.getUserId())
                         .personnel(subDTO.getPersonnel())
                         .service(subDTO.getService())
                         .storage(subDTO.getStorage())
@@ -61,15 +74,52 @@ public class SubscribeServiceImpl implements SubscribeService{
     }
 
     @Override
+    @Transactional
     public void updateSubRemainDate(RequestExtensionPeriodDTO requestExtensionPeriodDTO) {
         int period = requestExtensionPeriodDTO.getPeriod();
-        LocalDate endDate = LocalDate.now().plusMonths(period);
+        FindSubDTO subInfo = subscribeRepository.findSubById(requestExtensionPeriodDTO.getId());
+        String service = subInfo.getService();
+        long userId = subInfo.getUserId();
+        boolean checkAmount = compareAmount(requestExtensionPeriodDTO.getAmount(), period, service, userId);
 
-        ExtensionPeriodDTO extensionPeriodDTO = ExtensionPeriodDTO.builder()
-                .id(requestExtensionPeriodDTO.getId())
-                .endDate(endDate)
-                .build();
+        if (checkAmount){
+            LocalDate endDate = LocalDate.now().plusMonths(period);
 
-        subscribeRepository.updateSubRemainDate(extensionPeriodDTO);
+            ExtensionPeriodDTO extensionPeriodDTO = ExtensionPeriodDTO.builder()
+                    .id(requestExtensionPeriodDTO.getId())
+                    .endDate(endDate)
+                    .build();
+
+            subscribeRepository.updateSubRemainDate(extensionPeriodDTO);
+        }
+    }
+
+    @Transactional
+    public boolean compareAmount(long requestAmount, int period, String service, long userId){
+        long amount = 0;
+
+        switch (service){
+            case "Basic":
+                amount = (long)10000 * period;
+                break;
+            case "Standard":
+                amount = (long)25000 * period;
+                break;
+            case "Premium":
+                amount = (long)50000 * period;
+                break;
+        }
+
+        if (amount == requestAmount){
+            SavePaymentDTO savePaymentDTO = SavePaymentDTO.builder()
+                    .userId(userId)
+                    .amount(amount)
+                    .build();
+            paymentRepository.savePayment(savePaymentDTO);
+
+            return true;
+        }else {
+            throw new NotMatchAmountException("not match amount");
+        }
     }
 }

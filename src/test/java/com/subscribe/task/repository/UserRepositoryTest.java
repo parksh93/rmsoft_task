@@ -32,10 +32,10 @@ public class UserRepositoryTest {
 
           userRepository.save(saveUserDTO);
 
-          List<FindUserDTO> memberList = userRepository.findAll();
+          List<FindUserDTO> userList = userRepository.findAll();
 
-          assertEquals(2, memberList.size());
-          assertEquals("asd1", memberList.get(1).getLoginId());
+          assertEquals(2, userList.size());
+          assertEquals("asd1", userList.get(1).getLoginId());
      }
 
      @Test
@@ -43,8 +43,8 @@ public class UserRepositoryTest {
      @DisplayName("회원 정보 조회")
      public void findByLoginIdTest(){
           String loginId = "asd";
-          FindUserDTO findMemberDTO = userRepository.findByLoginId(loginId);
+          FindUserDTO findUserDTO = userRepository.findByLoginId(loginId);
 
-          assertEquals("123", findMemberDTO.getPassword());
+          assertEquals("123", findUserDTO.getPassword());
      }
 }

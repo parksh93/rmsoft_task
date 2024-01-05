@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class FindSubDTO {
     private long id;
-    private long memberId;
+    private long userId;
     private int personnel;
     private String service;
     private long storage;

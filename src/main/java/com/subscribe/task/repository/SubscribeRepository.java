@@ -12,6 +12,8 @@ import java.util.List;
 public interface SubscribeRepository {
     List<FindSubDTO> findAllSub();
     void saveSub(SaveSubDTO saveSubDTO);
-    FindSubDTO findSubByMemberId(long memberId);
+    FindSubDTO findSubByUserId(long userId);
+    FindSubDTO findSubById(long id);
     void updateSubRemainDate(ExtensionPeriodDTO extensionPeriodDTO);
+
 }

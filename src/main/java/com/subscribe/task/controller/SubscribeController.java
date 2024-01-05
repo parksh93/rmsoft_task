@@ -31,9 +31,9 @@ public class SubscribeController {
         subscribeService.saveSub(requestSaveSubDTO);
     }
 
-    @GetMapping("/findSub/{memberId}")
-    public ResponseEntity<ResponseFindSubDTO> findSub(@PathVariable long memberId){
-        return ResponseEntity.ok(subscribeService.findSub(memberId));
+    @GetMapping("/findSub/{userId}")
+    public ResponseEntity<ResponseFindSubDTO> findSub(@PathVariable long userId){
+        return ResponseEntity.ok(subscribeService.findSub(userId));
     }
 
     @PatchMapping("/extensionPeriod")

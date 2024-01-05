@@ -35,10 +35,10 @@ public class UserServiceTest {
 
         userService.save(saveUserDTO);
 
-        List<FindUserDTO> memberList = userService.findAll();
+        List<FindUserDTO> userList = userService.findAll();
 
-        assertEquals(2, memberList.size());
-        assertEquals("asd1", memberList.get(1).getLoginId());
+        assertEquals(2, userList.size());
+        assertEquals("asd1", userList.get(1).getLoginId());
     }
 
     @Test

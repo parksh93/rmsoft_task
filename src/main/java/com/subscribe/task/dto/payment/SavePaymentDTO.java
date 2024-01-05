@@ -1,19 +1,17 @@
-package com.subscribe.task.dto.subscribe;
+package com.subscribe.task.dto.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
-public class RequestSaveSubDTO {
+public class SavePaymentDTO {
     private long userId;
-    private int personnel;
-    private String service;
-    private long storage;
-    private int period;
     private long amount;
 }

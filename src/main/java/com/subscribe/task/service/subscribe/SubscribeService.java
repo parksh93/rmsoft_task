@@ -10,6 +10,6 @@ import java.util.List;
 public interface SubscribeService {
     List<FindSubDTO> findAllSub();
     void saveSub(RequestSaveSubDTO requestSaveSubDTO);
-    ResponseFindSubDTO findSub(long memberId);
+    ResponseFindSubDTO findSub(long userId);
     void updateSubRemainDate(RequestExtensionPeriodDTO requestExtensionPeriodDTO);
 }

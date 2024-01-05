@@ -26,7 +26,7 @@ public class SubscribeRepositoryTest {
     @DisplayName("사용자가 선택한 서비스 저장")
     public void saveSubTest(){
         SaveSubDTO saveSubDTO = SaveSubDTO.builder()
-                .memberId(1L)
+                .userId(1L)
                 .personnel(2)
                 .service("Basic")
                 .storage(1L)
@@ -45,8 +45,8 @@ public class SubscribeRepositoryTest {
     @Transactional
     @DisplayName("사용자 서비스 사용현황 조회")
     public void findSubByMemberIdTest(){
-        long memberId = 1L;
-        FindSubDTO sub = subscribeRepository.findSubByMemberId(memberId);
+        long userId = 1L;
+        FindSubDTO sub = subscribeRepository.findSubByUserId(userId);
 
         assertNotNull(sub);
         assertEquals("Basic", sub.getService());
@@ -63,7 +63,7 @@ public class SubscribeRepositoryTest {
 
         subscribeRepository.updateSubRemainDate(extensionPeriodDTO);
 
-        FindSubDTO subDTO = subscribeRepository.findSubByMemberId(1);
+        FindSubDTO subDTO = subscribeRepository.findSubByUserId(1);
 
         assertEquals(LocalDate.now().plusMonths(1), subDTO.getEndDate());
     }

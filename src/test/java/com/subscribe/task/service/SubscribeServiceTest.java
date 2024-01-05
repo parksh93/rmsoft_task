@@ -27,11 +27,12 @@ public class SubscribeServiceTest {
     @DisplayName("구독 정보 저장")
     public void saveSubTest(){
         RequestSaveSubDTO saveSubDTO = RequestSaveSubDTO.builder()
-                .memberId(1L)
+                .userId(1L)
                 .personnel(2)
                 .service("Basic")
                 .storage(1L)
                 .personnel(1)
+                .amount(10000)
                 .build();
 
         subscribeService.saveSub(saveSubDTO);

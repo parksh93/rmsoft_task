@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 public class SaveSubDTO {
-    private long memberId;
+    private long userId;
     private int personnel;
     private String service;
     private long storage;

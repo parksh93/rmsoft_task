@@ -44,11 +44,12 @@ public class SubscribeControllerTest {
     @DisplayName("서비스 구독 신청")
     public void subscriptionTest() throws Exception {
         RequestSaveSubDTO saveSubDTO = RequestSaveSubDTO.builder()
-                .memberId(1L)
+                .userId(1L)
                 .personnel(2)
                 .service("Basic")
                 .storage(1L)
                 .personnel(1)
+                .amount(10000)
                 .build();
         String url = "/sub/subscription";
         String url2 = "/sub/findAllSub";
@@ -60,7 +61,7 @@ public class SubscribeControllerTest {
         final ResultActions result = mockMvc.perform(get(url2).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
-                .andExpect(jsonPath("$[1].memberId").value(1));
+                .andExpect(jsonPath("$[1].userId").value(1));
     }
 
     @Test
@@ -87,8 +88,8 @@ public class SubscribeControllerTest {
                 .build();
         String url = "/sub/extensionPeriod";
 
-        long memberId = 1L;
-        String url2 = "/sub/findSub/" + memberId;
+        long userId = 1L;
+        String url2 = "/sub/findSub/" + userId;
 
         final String request = objectMapper.writeValueAsString(requestExtensionPeriodDTO);
 
