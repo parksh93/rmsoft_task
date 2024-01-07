@@ -21,7 +21,7 @@ FK를 직접적으로 선언하지 않은 이유는 <b style='color:orange'>대�
 <b style='background-color:green'>서비스를 이용하는 사용자가 많지 않을 경우에는 FK를 걸어 DB의 무결성을 보장하는 것이 좋지만 사용자가 늘어남에 따라 데이터 생성 및 수정시에 항상 부모 테이블의 PK가 존재하는지 확인하게 되기 떄문에 성능 저하를 일으키게 됩니다.</b><br/>
 그렇기 때문에 해당 프로젝트에서는 FK를 직접 걸지 않도록 설계했습니다.
 </details>
-<br>
+
 <details>
     <summary>
         <h3 style="display: inline"> 2. Spring Security 적용</h3>
@@ -33,7 +33,7 @@ BCryptPasswordEncoder
 `
 를 이용해 회원 가입 시 비밀번호를 암호화해 저장합니다. 그 후 로그인 시 입력받은 비밀번호를 암호화해 비교하여 로그인을 진행합니다.
 <br><br>
-로그인에 성공하게 되면 "ROLE_USER" 권한을 부여하여 사용자의 id와 loginId를 담은 JWT 토큰을 발급해 추후 서비스 이용 시 filter를 통해 권한에 따라 서비스 이용을 제한하게 됩니다.ㅣ
+로그인에 성공하게 되면 "ROLE_USER" 권한을 부여하여 사용자의 id와 loginId를 담은 JWT 토큰을 발급해 추후 서비스 이용 시 filter를 통해 권한에 따라 서비스 이용을 제한하게 됩니다.
 
 </details>
 <br>
