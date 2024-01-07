@@ -46,9 +46,9 @@ public class SubscribeServiceTest {
     @Transactional
     @DisplayName("사용자 서비스 이용현황 조회")
     public void findSubTest(){
-        long memberId = 1L;
+        long userId = 1L;
 
-        ResponseFindSubDTO sub = subscribeService.findSub(memberId);
+        ResponseFindSubDTO sub = subscribeService.findSub(userId);
 
         assertNotNull(sub);
         assertEquals("Basic", sub.getService());

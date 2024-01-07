@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/sub")
 public class SubscribeController {
-    SubscribeService subscribeService;
+    private final SubscribeService subscribeService;
 
     @Autowired
     public SubscribeController(SubscribeService subscribeService){

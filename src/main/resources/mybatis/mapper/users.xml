@@ -11,7 +11,8 @@
             phone_number AS phoneNumber,
             email,
             address
-        FROM users
+        FROM
+            users
     </select>
     <insert id="save" parameterType="com.subscribe.task.dto.user.SaveUserDTO">
         INSERT INTO users VALUES (null, #{loginId}, #{password}, #{name}, #{phoneNumber}, #{email}, #{address})
@@ -25,6 +26,9 @@
             phone_number AS phoneNumber,
             email,
             address
-        FROM users WHERE login_id = #{loginId}
+        FROM
+            users
+        WHERE
+            login_id = #{loginId}
     </select>
 </mapper>

@@ -2,7 +2,6 @@ package com.subscribe.task.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.subscribe.task.dto.user.SaveUserDTO;
-import com.subscribe.task.dto.user.SignInDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,26 +62,4 @@ public class UserControllerTest {
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].loginId").value("asd"));
     }
-
-    // SpringSecurity 적용 전 테스트 내역
-    /*
-    @Test
-    @Transactional
-    @DisplayName("로그인")
-    public void signInTest() throws Exception{
-        String url = "/user/signIn";
-
-        SignInDTO signInDTO = SignInDTO.builder()
-                .loginId("asd")
-                .password("123")
-                .build();
-
-        final String request = objectMapper.writeValueAsString(signInDTO);
-
-        final ResultActions result = mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON).content(request));
-
-        result.andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("rmsoft"));
-    }
-     */
 }

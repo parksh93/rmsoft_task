@@ -15,8 +15,8 @@ import java.util.List;
 
 @Service
 public class SubscribeServiceImpl implements SubscribeService{
-    SubscribeRepository subscribeRepository;
-    PaymentRepository paymentRepository;
+    private final SubscribeRepository subscribeRepository;
+    private final PaymentRepository paymentRepository;
 
     @Autowired
     public SubscribeServiceImpl(SubscribeRepository subscribeRepository, PaymentRepository paymentRepository){
@@ -96,19 +96,12 @@ public class SubscribeServiceImpl implements SubscribeService{
 
     @Transactional
     public boolean compareAmount(long requestAmount, int period, String service, long userId){
-        long amount = 0;
-
-        switch (service){
-            case "Basic":
-                amount = (long)10000 * period;
-                break;
-            case "Standard":
-                amount = (long)25000 * period;
-                break;
-            case "Premium":
-                amount = (long)50000 * period;
-                break;
-        }
+        long amount = switch (service) {
+            case "Basic" -> (long) 10000 * period;
+            case "Standard" -> (long) 25000 * period;
+            case "Premium" -> (long) 50000 * period;
+            default -> 0;
+        };
 
         if (amount == requestAmount){
             SavePaymentDTO savePaymentDTO = SavePaymentDTO.builder()

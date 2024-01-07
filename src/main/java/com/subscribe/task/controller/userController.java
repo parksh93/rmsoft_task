@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class userController {
-    private UserService userService;
+    private final UserService userService;
     public static final String ACCESS_TOKEN_COOKIE_NAME = "access_token";
 
     @Autowired
@@ -33,7 +33,7 @@ public class userController {
         userService.save(saveUserDTO);
     }
 
-    @GetMapping("/signIn")
+    @PostMapping("/signIn")
     public void signIn(@RequestBody SignInDTO signInDTO, HttpServletResponse response){
         String token = userService.generateToken(signInDTO);
 

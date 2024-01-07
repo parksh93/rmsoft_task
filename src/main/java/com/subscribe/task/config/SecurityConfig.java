@@ -33,7 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authenticationConfig -> {
-                    authenticationConfig.requestMatchers( "/signIn", "/signup")
+                    authenticationConfig.requestMatchers( "/user/signIn", "/user/signup")
                             .permitAll()
                             .anyRequest()
                             .authenticated();
@@ -69,7 +69,7 @@ public class SecurityConfig {
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter(){
-        return new TokenAuthenticationFilter(tokenProvider);  // 필터는 생성자에서 토큰 제공자(tokenProvider 클래스)를 요구한다.
+        return new TokenAuthenticationFilter(tokenProvider);
     }
 
 }

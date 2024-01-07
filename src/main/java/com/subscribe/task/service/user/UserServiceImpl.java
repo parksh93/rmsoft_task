@@ -18,10 +18,10 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TokenProvider tokenProvider;
-    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofHours(1);
+    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, TokenProvider tokenProvider){
